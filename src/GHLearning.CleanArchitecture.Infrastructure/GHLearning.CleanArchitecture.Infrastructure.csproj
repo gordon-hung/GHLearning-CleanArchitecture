@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.14" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
+		<PackageReference Include="Scrutor" Version="6.0.1" />
+		<PackageReference Include="SequentialGuid" Version="4.0.6" />
+		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\GHLearning.CleanArchitecture.Application\GHLearning.CleanArchitecture.Application.csproj" />
+		<ProjectReference Include="..\GHLearning.CleanArchitecture.Core\GHLearning.CleanArchitecture.Core.csproj" />
+		<ProjectReference Include="..\GHLearning.CleanArchitecture.SharedKernel\GHLearning.CleanArchitecture.SharedKernel.csproj" />
+	</ItemGroup>
+
+</Project>

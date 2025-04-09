@@ -1,0 +1,16 @@
+[*.cs]
+
+# IDE0058: 永遠不會使用運算式值
+dotnet_diagnostic.IDE0058.severity = none
+
+# IDE0300: 簡化集合初始化
+dotnet_diagnostic.IDE0300.severity = none
+
+# CA1861: 避免常數陣列作為引數
+dotnet_diagnostic.CA1861.severity = none
+
+# IDE0161: 轉換為已設定檔案範圍的 namespace
+dotnet_diagnostic.IDE0161.severity = none
+
+# IDE0053: 使用 Lambda 運算式的運算式主體
+dotnet_diagnostic.IDE0053.severity = none

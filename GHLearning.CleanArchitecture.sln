@@ -1,0 +1,81 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35818.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHLearning.CleanArchitecture.Application", "src\GHLearning.CleanArchitecture.Application\GHLearning.CleanArchitecture.Application.csproj", "{FCF0358C-48F4-4A87-9B03-A107792BC231}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHLearning.CleanArchitecture.Infrastructure", "src\GHLearning.CleanArchitecture.Infrastructure\GHLearning.CleanArchitecture.Infrastructure.csproj", "{6DC0168A-0732-4F49-BF7A-C488F7E3A9F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHLearning.CleanArchitecture.WebApi", "src\GHLearning.CleanArchitecture.WebApi\GHLearning.CleanArchitecture.WebApi.csproj", "{FDCAFBE6-E4F7-4CA2-9A07-D1085751D95B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHLearning.CleanArchitecture.Migrations", "src\GHLearning.CleanArchitecture.Migrations\GHLearning.CleanArchitecture.Migrations.csproj", "{AF18B8F7-66E7-C533-818E-357A9BDD5FFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHLearning.CleanArchitecture.SharedKernel", "src\GHLearning.CleanArchitecture.SharedKernel\GHLearning.CleanArchitecture.SharedKernel.csproj", "{C89FF626-7BAC-44FF-9FE2-0DADE27CCA05}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1ED3C714-792C-40DA-96E7-9640255506AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHLearning.CleanArchitecture.InfrastructureTests", "tests\GHLearning.CleanArchitecture.InfrastructureTests\GHLearning.CleanArchitecture.InfrastructureTests.csproj", "{8902A41B-A4DB-E7C9-C716-7F32765F83D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHLearning.CleanArchitecture.ApplicationTests", "tests\GHLearning.CleanArchitecture.ApplicationTests\GHLearning.CleanArchitecture.ApplicationTests.csproj", "{FB636781-90B1-F641-464B-D2F1C2B61AFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHLearning.CleanArchitecture.Core", "src\GHLearning.CleanArchitecture.Core\GHLearning.CleanArchitecture.Core.csproj", "{A86C6FE6-01B0-8DBE-064E-6BFEFF732A52}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FCF0358C-48F4-4A87-9B03-A107792BC231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCF0358C-48F4-4A87-9B03-A107792BC231}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCF0358C-48F4-4A87-9B03-A107792BC231}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCF0358C-48F4-4A87-9B03-A107792BC231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DC0168A-0732-4F49-BF7A-C488F7E3A9F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DC0168A-0732-4F49-BF7A-C488F7E3A9F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DC0168A-0732-4F49-BF7A-C488F7E3A9F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DC0168A-0732-4F49-BF7A-C488F7E3A9F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDCAFBE6-E4F7-4CA2-9A07-D1085751D95B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDCAFBE6-E4F7-4CA2-9A07-D1085751D95B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDCAFBE6-E4F7-4CA2-9A07-D1085751D95B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDCAFBE6-E4F7-4CA2-9A07-D1085751D95B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF18B8F7-66E7-C533-818E-357A9BDD5FFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF18B8F7-66E7-C533-818E-357A9BDD5FFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF18B8F7-66E7-C533-818E-357A9BDD5FFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF18B8F7-66E7-C533-818E-357A9BDD5FFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C89FF626-7BAC-44FF-9FE2-0DADE27CCA05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C89FF626-7BAC-44FF-9FE2-0DADE27CCA05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C89FF626-7BAC-44FF-9FE2-0DADE27CCA05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C89FF626-7BAC-44FF-9FE2-0DADE27CCA05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8902A41B-A4DB-E7C9-C716-7F32765F83D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8902A41B-A4DB-E7C9-C716-7F32765F83D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8902A41B-A4DB-E7C9-C716-7F32765F83D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8902A41B-A4DB-E7C9-C716-7F32765F83D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB636781-90B1-F641-464B-D2F1C2B61AFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB636781-90B1-F641-464B-D2F1C2B61AFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB636781-90B1-F641-464B-D2F1C2B61AFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB636781-90B1-F641-464B-D2F1C2B61AFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A86C6FE6-01B0-8DBE-064E-6BFEFF732A52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A86C6FE6-01B0-8DBE-064E-6BFEFF732A52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A86C6FE6-01B0-8DBE-064E-6BFEFF732A52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A86C6FE6-01B0-8DBE-064E-6BFEFF732A52}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FCF0358C-48F4-4A87-9B03-A107792BC231} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6DC0168A-0732-4F49-BF7A-C488F7E3A9F0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{FDCAFBE6-E4F7-4CA2-9A07-D1085751D95B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{AF18B8F7-66E7-C533-818E-357A9BDD5FFA} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{C89FF626-7BAC-44FF-9FE2-0DADE27CCA05} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{8902A41B-A4DB-E7C9-C716-7F32765F83D1} = {1ED3C714-792C-40DA-96E7-9640255506AA}
+		{FB636781-90B1-F641-464B-D2F1C2B61AFE} = {1ED3C714-792C-40DA-96E7-9640255506AA}
+		{A86C6FE6-01B0-8DBE-064E-6BFEFF732A52} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E38664B-EA1E-405F-A62C-8E3C6E0447EC}
+	EndGlobalSection
+EndGlobal
