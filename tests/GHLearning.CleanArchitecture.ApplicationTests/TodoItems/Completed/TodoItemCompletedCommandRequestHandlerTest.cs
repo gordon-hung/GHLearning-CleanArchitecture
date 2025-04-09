@@ -122,7 +122,7 @@ public class TodoItemCompletedCommandRequestHandlerTest
 		var actual = await sut.Handle(request, cancellationTokenSource.Token);
 
 		Assert.False(actual.IsSuccess);
-		Assert.Equal(ErrorType.InternalServerError, actual.Error.Type);
+		Assert.Equal(ErrorType.Conflict, actual.Error.Type);
 
 		_ = fakeTodoItemRepository
 			.DidNotReceive()
