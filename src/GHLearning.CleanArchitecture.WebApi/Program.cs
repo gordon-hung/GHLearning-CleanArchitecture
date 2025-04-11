@@ -1,5 +1,7 @@
 ﻿using System.Net.Mime;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+using CorrelationId;
 using GHLearning.CleanArchitecture.WebApi.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
@@ -12,6 +14,7 @@ using OpenTelemetry.Exporter;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +25,7 @@ builder.Services
 	{
 		options.Filters.Add(new ProducesAttribute(MediaTypeNames.Application.Json));
 		options.Filters.Add(new ConsumesAttribute(MediaTypeNames.Application.Json));
+		options.Filters.Add<HandleCorrelationActionFilter>();
 		options.Filters.Add<FormatResponseExceptionFilterAttribute>();
 		options.Filters.Add<FormatResponseResultFilterAttribute>();
 	})
@@ -63,10 +67,9 @@ builder.Services.AddSwaggerGen(options =>
 
 	options.CustomSchemaIds(type =>
 	{
-		var namespaceName = type.Namespace!;
-		namespaceName = namespaceName.Replace("GHLearning.CleanArchitecture.Core.", string.Empty);
-		namespaceName = namespaceName.Replace("GHLearning.CleanArchitecture.WebApi.Controllers.", string.Empty);
-		namespaceName = namespaceName.Replace("GHLearning.CleanArchitecture.WebApi.", string.Empty);
+		var pattern = @"^GHLearning\.\w+\.(Core|WebApi(\.Controllers)?)\.";
+		var namespaceName = Regex.Replace(type.Namespace!, pattern, string.Empty);
+
 		var name = type.Name;
 		if (type.IsGenericType)
 		{
@@ -90,14 +93,16 @@ builder.Services
 		configuration.GetSection("Jwt").Bind(options);
 	});
 
-//AddHttpLogging
+//Learn more about configuring HttpLogging at https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-logging/?view=aspnetcore-8.0
 builder.Services.AddHttpLogging(logging =>
 {
 	logging.LoggingFields = HttpLoggingFields.All;
+	logging.RequestHeaders.Add(CorrelationIdOptions.DefaultHeader);
+	logging.ResponseHeaders.Add(CorrelationIdOptions.DefaultHeader);
 	logging.MediaTypeOptions.AddText("application/javascript");
 	logging.RequestBodyLogLimit = 4096;
 	logging.ResponseBodyLogLimit = 4096;
-	logging.CombineLogs = true;
+	logging.CombineLogs = false;
 });
 
 //AddOpenTelemetry
@@ -106,21 +111,26 @@ builder.Services.AddOpenTelemetry()
 	.AddService(builder.Configuration["ServiceName"]!))
 	.UseOtlpExporter(OtlpExportProtocol.Grpc, new Uri(builder.Configuration["OtlpEndpointUrl"]!))
 	.WithMetrics(metrics => metrics
-		// Metrics provider from OpenTelemetry
-		//.AddAspNetCoreInstrumentation()
-		// Metrics provides by ASP.NET Core in .NET 8
-		.AddMeter("GHLearning.CleanArchitecture.")
+		.AddMeter("GHLearning.")
+		.AddAspNetCoreInstrumentation()
+		.AddRuntimeInstrumentation()
+		.AddProcessInstrumentation()
 		.AddPrometheusExporter())
 	.WithTracing(tracing => tracing
 		.AddEntityFrameworkCoreInstrumentation()
 		.AddHttpClientInstrumentation()
 		.AddAspNetCoreInstrumentation(options => options.Filter = (httpContext) => !httpContext.Request.Path.StartsWithSegments("/swagger", StringComparison.OrdinalIgnoreCase) &&
+				!httpContext.Request.Path.StartsWithSegments("/live", StringComparison.OrdinalIgnoreCase) &&
 				!httpContext.Request.Path.StartsWithSegments("/healthz", StringComparison.OrdinalIgnoreCase) &&
+				!httpContext.Request.Path.StartsWithSegments("/metrics", StringComparison.OrdinalIgnoreCase) &&
+				!httpContext.Request.Path.StartsWithSegments("/favicon.ico", StringComparison.OrdinalIgnoreCase) &&
 				!httpContext.Request.Path.Value!.Equals("/api/events/raw", StringComparison.OrdinalIgnoreCase) &&
 				!httpContext.Request.Path.Value!.EndsWith(".js", StringComparison.OrdinalIgnoreCase) &&
 				!httpContext.Request.Path.StartsWithSegments("/_vs", StringComparison.OrdinalIgnoreCase)));
 
 var app = builder.Build();
+
+app.UseCorrelationId();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -128,8 +138,6 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
-
-//app.UseRequestTraceLogging();
 
 app.UseHttpsRedirection();
 
@@ -161,5 +169,9 @@ app.UseHealthChecks("/healthz", new Microsoft.AspNetCore.Diagnostics.HealthCheck
 		[HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
 	}
 });
+
+// Prometheus 提供服務數據資料源
+app.MapMetrics();
+app.UseHttpMetrics();
 
 app.Run();

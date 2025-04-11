@@ -1,9 +1,12 @@
 ﻿using System.Reflection;
 using System.Text;
+using CorrelationId;
+using CorrelationId.DependencyInjection;
 using GHLearning.CleanArchitecture.Application.Abstractions.Authentication;
 using GHLearning.CleanArchitecture.Infrastructure;
 using GHLearning.CleanArchitecture.Infrastructure.Authentication;
 using GHLearning.CleanArchitecture.Infrastructure.Authorization;
+using GHLearning.CleanArchitecture.Infrastructure.Correlations;
 using GHLearning.CleanArchitecture.Infrastructure.Entities;
 using GHLearning.CleanArchitecture.SharedKernel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,7 +33,8 @@ public static class ServiceCollectionExtensions
 		.AddDatabase(dbContextOptionsBuilder)
 		.AddHealth()
 		.AddAuthenticationInternal()
-		.AddAuthorizationInternal();
+		.AddAuthorizationInternal()
+		.AddCorrelation();
 
 	private static IServiceCollection AddServices(this IServiceCollection services)
 		=> services.AddSingleton(TimeProvider.System)
@@ -88,6 +92,18 @@ public static class ServiceCollectionExtensions
 		services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
 		services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+
+		return services;
+	}
+
+	private static IServiceCollection AddCorrelation(this IServiceCollection services)
+	{
+		//Learn more about configuring CorrelationId at https://github.com/stevejgordon/CorrelationId/wiki
+		services.AddCorrelationId<CustomCorrelationIdProvider>(options =>
+		{
+			options.AddToLoggingScope = true;
+			options.LoggingScopeKey = CorrelationIdOptions.DefaultHeader;
+		});
 
 		return services;
 	}

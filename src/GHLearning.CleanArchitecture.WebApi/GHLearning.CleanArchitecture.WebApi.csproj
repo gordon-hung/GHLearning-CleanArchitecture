@@ -16,9 +16,12 @@
 		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.11.1" />
 		<PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.11.0-beta.2" />
 		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.11.1" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Process" Version="1.11.0-beta.2" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.11.1" />
+		<PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.1.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="8.1.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
