@@ -1,9 +1,12 @@
 ﻿using System.Net.Mime;
+using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using CorrelationId;
 using GHLearning.CleanArchitecture.WebApi.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -149,7 +152,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseHealthChecks("/live", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+app.UseHealthChecks("/live", new HealthCheckOptions
 {
 	Predicate = check => check.Tags.Contains("live"),
 	ResultStatusCodes =
@@ -159,9 +162,39 @@ app.UseHealthChecks("/live", new Microsoft.AspNetCore.Diagnostics.HealthChecks.H
 		[HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
 	}
 });
-app.UseHealthChecks("/healthz", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+app.UseHealthChecks("/healthz", new HealthCheckOptions
 {
 	Predicate = _ => true,
+	ResponseWriter = (context, report) =>
+	{
+		context.Response.ContentType = "application/json; charset=utf-8";
+
+		var options = new JsonWriterOptions { Indented = true };
+
+		using var memoryStream = new MemoryStream();
+		using (var jsonWriter = new Utf8JsonWriter(memoryStream, options))
+		{
+			jsonWriter.WriteStartObject();
+			jsonWriter.WriteString("Status", report.Status.ToString());
+			jsonWriter.WriteString("TotalDuration", report.TotalDuration.ToString());
+			jsonWriter.WriteStartObject("Entries");
+
+			foreach (var healthReportEntry in report.Entries)
+			{
+				jsonWriter.WriteStartObject(healthReportEntry.Key);
+				jsonWriter.WriteString("Status", healthReportEntry.Value.Status.ToString());
+				jsonWriter.WriteString("Duration", healthReportEntry.Value.Duration.ToString());
+				jsonWriter.WriteString("Description", healthReportEntry.Value.Description ?? null);
+				jsonWriter.WriteEndObject();
+			}
+
+			jsonWriter.WriteEndObject();
+			jsonWriter.WriteEndObject();
+		}
+
+		return context.Response.WriteAsync(
+			Encoding.UTF8.GetString(memoryStream.ToArray()));
+	},
 	ResultStatusCodes =
 	{
 		[HealthStatus.Healthy] = StatusCodes.Status200OK,
