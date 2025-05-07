@@ -1,5 +1,7 @@
 ﻿using GHLearning.CleanArchitecture.Core.TodoItems;
 using GHLearning.CleanArchitecture.Infrastructure.Entities;
+using GHLearning.CleanArchitecture.Infrastructure.Entities.Models;
+
 using GHLearning.CleanArchitecture.Infrastructure.TodoItems;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;

@@ -3,6 +3,7 @@ using GHLearning.CleanArchitecture.Infrastructure.Entities.Configurations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using GHLearning.CleanArchitecture.Infrastructure.Entities.Models;
 #nullable enable
 
 namespace GHLearning.CleanArchitecture.Infrastructure.Entities;

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
+using GHLearning.CleanArchitecture.Migrations.Entities.Models;
 
 #nullable disable
 

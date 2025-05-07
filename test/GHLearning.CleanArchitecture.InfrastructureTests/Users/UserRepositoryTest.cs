@@ -3,6 +3,7 @@ using GHLearning.CleanArchitecture.Infrastructure.Entities;
 using GHLearning.CleanArchitecture.Infrastructure.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using GHLearning.CleanArchitecture.Infrastructure.Entities.Models;
 
 namespace GHLearning.CleanArchitecture.InfrastructureTests.Users;
 

@@ -1,5 +1,7 @@
 ﻿using GHLearning.CleanArchitecture.Core.Users;
 using GHLearning.CleanArchitecture.Infrastructure.Entities;
+using GHLearning.CleanArchitecture.Infrastructure.Entities.Models;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace GHLearning.CleanArchitecture.Infrastructure.Users;

@@ -1,7 +1,8 @@
-﻿using CorrelationId;
+﻿using System.Diagnostics;
+
+using CorrelationId;
 using CorrelationId.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Diagnostics;
 
 namespace GHLearning.CleanArchitecture.WebApi.Filters;
 

@@ -2,8 +2,10 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using GHLearning.CleanArchitecture.Migrations.Entities;
+using GHLearning.CleanArchitecture.Migrations.Entities.Models;
 
-namespace GHLearning.CleanArchitecture.Migrations.Entities;
+namespace GHLearning.CleanArchitecture.Migrations.Entities.Models;
 
 public partial class TodoItem
 {

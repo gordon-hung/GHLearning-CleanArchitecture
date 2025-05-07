@@ -2,8 +2,10 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using GHLearning.CleanArchitecture.Migrations.Entities.Models;
+using GHLearning.CleanArchitecture.Migrations.Entities;
 
-namespace GHLearning.CleanArchitecture.Migrations.Entities;
+namespace GHLearning.CleanArchitecture.Migrations.Entities.Models;
 
 public partial class User
 {

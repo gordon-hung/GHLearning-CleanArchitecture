@@ -1,8 +1,10 @@
-﻿using CorrelationId.Abstractions;
-using CorrelationId;
+﻿using CorrelationId;
+
+using CorrelationId.Abstractions;
 using Microsoft.AspNetCore.Http;
 
 namespace GHLearning.CleanArchitecture.Infrastructure.Correlations;
+
 internal sealed class CustomCorrelationIdProvider : ICorrelationIdProvider
 {
 	public string GenerateCorrelationId(HttpContext context)
@@ -20,6 +22,5 @@ internal sealed class CustomCorrelationIdProvider : ICorrelationIdProvider
 		context.Response.Headers[CorrelationIdOptions.DefaultHeader] = correlationId;
 
 		return correlationId;
-
 	}
 }

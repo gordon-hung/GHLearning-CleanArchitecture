@@ -1,6 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using GHLearning.CleanArchitecture.Core.TodoItems;
 using GHLearning.CleanArchitecture.Infrastructure.Entities;
+using GHLearning.CleanArchitecture.Infrastructure.Entities.Models;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace GHLearning.CleanArchitecture.Infrastructure.TodoItems;
