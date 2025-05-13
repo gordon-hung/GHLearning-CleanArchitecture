@@ -1,5 +1,5 @@
 # GHLearning-CleanArchitecture
-Gordon Hung Learning CleanArchitecture
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/gordon-hung/GHLearning-CleanArchitecture)
 
 C# Clean Architecture 是一種設計模式，旨在提高應用程式的可維護性、可測試性和可擴展性。它的主要目的是將商業邏輯和基礎設施分離，使得應用程式的不同層次之間具有高度解耦，從而更容易進行單元測試和維護。
 
