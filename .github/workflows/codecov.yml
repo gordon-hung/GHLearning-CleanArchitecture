@@ -28,7 +28,7 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: Test
-        run: dotnet test --no-build --verbosity normal --collect:"Code Coverage"
+        run: dotnet test --no-build --verbosity normal
 
       - name: Install Codecov
         run: curl -s https://codecov.io/bash | bash
