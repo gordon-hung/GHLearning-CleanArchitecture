@@ -5,19 +5,25 @@ name: "Codecov"
 on: [push, pull_request]
 
 jobs:
-  code-coverage:
-    runs-on: ubuntu-22.04
-
+  test:
+    name: Run tests and collect coverage
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: codecov/codecov-action@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
-    - name: Install lcov and run test
-      run: |
-        sudo apt-get install lcov
-        make lcov
+      - name: Set up Node
+        uses: actions/setup-node@v4
 
-    - name: Upload coverage reports to Codecov
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npx jest --coverage
+
+      - name: Upload results to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
