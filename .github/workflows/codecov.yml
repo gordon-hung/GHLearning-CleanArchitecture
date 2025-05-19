@@ -27,9 +27,9 @@ jobs:
       - name: Build project
         run: dotnet build --configuration Release
 
-      - name: Run Tests with Code Coverage
-        run: dotnet test --no-build --verbosity normal --collect:"Code Coverage" --results-directory ${{ github.workspace }}/TestResults
-        
+      - name: Test
+        run: dotnet test --no-build --verbosity normal --collect:"Code Coverage"
+
       - name: Install Codecov
         run: curl -s https://codecov.io/bash | bash
 
