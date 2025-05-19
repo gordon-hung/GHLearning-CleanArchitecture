@@ -1,26 +1,21 @@
-name: Run tests and upload coverage
+name: "Codecov"
 
-on: 
-  push
+# Enabling on each push is to display the coverage changes in every PR, 
+# where each PR needs to be compared against the coverage of the head commit
+on: [push, pull_request]
 
 jobs:
-  test:
-    name: Run tests and collect coverage
-    runs-on: ubuntu-latest
+  code-coverage:
+    runs-on: ubuntu-22.04
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
-
-      - name: Install dependencies
-        run: go mod download
-
-      - name: Run tests
-        run: go test -coverprofile=coverage.txt
+    - name: Install lcov and run test
+      run: |
+        sudo apt-get install lcov
+        make lcov
 
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v5
