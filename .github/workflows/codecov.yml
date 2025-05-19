@@ -28,7 +28,7 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: Run tests and collect coverage
-        run: dotnet test --no-build --verbosity normal --collect:"Code Coverage" --results-directory $(Build.ArtifactStagingDirectory)
+        run: dotnet test --no-build --verbosity normal --collect:"Code Coverage" --results-directory Release
 
       - name: Install Codecov
         run: curl -s https://codecov.io/bash | bash
