@@ -1,24 +1,30 @@
-name: "Codecov"
+name: Codecov
 
-# Enabling on each push is to display the coverage changes in every PR, 
-# where each PR needs to be compared against the coverage of the head commit
-on: [push, pull_request]
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
-  code-coverage:
-    runs-on: ubuntu-22.04
+  build:
+
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    - name: Install lcov and run test
-      run: |
-        sudo apt-get install lcov
-        make lcov
-
-      - name: Upload results to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          slug: gordon-hung/GHLearning-CleanArchitecture
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: Upload results to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: gordon-hung/GHLearning-CleanArchitecture
