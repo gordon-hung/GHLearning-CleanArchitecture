@@ -2,36 +2,38 @@ name: Codecov
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
-        
-    - name: Restore dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --no-restore
-      
-    - name: Run tests
-      run: dotnet test --configuration Release --collect:"Code Coverage"
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install Codecov
-      run: curl -s https://codecov.io/bash | bash
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0'  # 指定 .NET 版本
 
-    - name: Upload coverage to Codecov
-      run: bash <(curl -s https://codecov.io/bash)
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --configuration Release
+
+      - name: Run tests
+        run: dotnet test --configuration Release --collect:"Code Coverage"
+
+      - name: Install Codecov
+        run: curl -s https://codecov.io/bash | bash
+
+      - name: Upload coverage to Codecov
+        run: bash <(curl -s https://codecov.io/bash)
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
