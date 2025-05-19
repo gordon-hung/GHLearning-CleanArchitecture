@@ -16,10 +16,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up .NET
+      - name: Set up .NET 9.0
         uses: actions/setup-dotnet@v2
         with:
-           dotnet-version: 9.0.x
+          dotnet-version: 9.0.x
 
       - name: Restore dependencies
         run: dotnet restore
@@ -27,8 +27,8 @@ jobs:
       - name: Build project
         run: dotnet build --configuration Release
 
-      - name: Run tests
-        run: dotnet test --configuration Release --collect:"Code Coverage"
+      - name: Run tests and collect coverage
+        run: dotnet test --configuration Release --collect:"Code Coverage" --results-directory $(Build.ArtifactStagingDirectory)
 
       - name: Install Codecov
         run: curl -s https://codecov.io/bash | bash
