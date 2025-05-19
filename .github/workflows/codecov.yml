@@ -1,8 +1,7 @@
 name: "Codecov"
 
-# Enabling on each push is to display the coverage changes in every PR, 
-# where each PR needs to be compared against the coverage of the head commit
-on: [push, pull_request]
+on: 
+  push
 
 jobs:
   test:
@@ -14,14 +13,14 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
 
       - name: Install dependencies
-        run: npm install
+        run: go mod download
 
       - name: Run tests
-        run: npx jest --coverage
+        run: go test -coverprofile=coverage.txt
 
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v5
