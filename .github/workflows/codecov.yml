@@ -1,5 +1,4 @@
 name: Codecov
-
 on:
   push:
     branches:
@@ -13,26 +12,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up .NET 9.0
+      # Set up .NET SDK
+      - name: Set up .NET SDK
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 9.0.x
+          dotnet-version: '7.0'
 
+      # Restore dependencies
       - name: Restore dependencies
         run: dotnet restore
 
+      # Build the project
       - name: Build project
         run: dotnet build --configuration Release
 
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
+      # Run tests and collect code coverage
+      - name: Run tests with code coverage
+        run: |
+          dotnet test --configuration Release --collect:"XPlat Code Coverage"
 
-      - name: Install Codecov
-        run: curl -s https://codecov.io/bash | bash
-
+      # Upload code coverage report
       - name: Upload coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash)
         env:
