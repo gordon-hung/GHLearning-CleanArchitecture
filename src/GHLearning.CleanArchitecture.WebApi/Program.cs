@@ -112,7 +112,7 @@ builder.Services.AddHttpLogging(logging =>
 builder.Services.AddOpenTelemetry()
 	.ConfigureResource(resource => resource
 	.AddService(builder.Configuration["ServiceName"]!))
-	.UseOtlpExporter(OtlpExportProtocol.Grpc, new Uri(builder.Configuration["OtlpEndpointUrl"]!))
+	.UseOtlpExporter(OtlpExportProtocol.Grpc, new Uri(builder.Configuration["OtlpEndpointUrl"]!.ToLower()))
 	.WithMetrics(metrics => metrics
 		.AddMeter("GHLearning.")
 		.AddAspNetCoreInstrumentation()

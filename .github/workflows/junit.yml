@@ -1,0 +1,40 @@
+name: Code Junit Report
+on:
+  push:
+    branches:
+      - "*"
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up .NET SDK
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 9.0.x
+
+      # Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Build the project
+      - name: Build project
+        run: dotnet build --configuration Release
+
+      # Run tests and collect code junit
+      - name: Run tests with code junit
+        run: |
+          dotnet test --configuration Release -l:"junit;LogFilePath=junit.xml"
+
+      # Upload test results to Codecov
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
