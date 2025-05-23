@@ -25,7 +25,7 @@ public class TodoItemCreatedCommandRequestHandlerTest
 		_ = fakeUserContext.UserId.Returns(userId);
 
 		var id = Guid.NewGuid();
-		_ = fakeSequentialGuidGenerator.NewId(Arg.Any<CancellationToken>()).Returns(id);
+		_ = fakeSequentialGuidGenerator.NewId().Returns(id);
 
 		var sut = new TodoItemCreatedCommandRequestHandler(
 			fakeUserContext,

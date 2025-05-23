@@ -32,7 +32,7 @@ public class UserRegisterCommandRequestHamdlerTest
 			.Returns(true);
 
 		var id = Guid.NewGuid();
-		_ = fakeSequentialGuidGenerator.NewId(Arg.Any<CancellationToken>()).Returns(id);
+		_ = fakeSequentialGuidGenerator.NewId().Returns(id);
 
 		var passwordHash = "passwordHash";
 		_ = fakePasswordHasher.Hash(Arg.Is(request.Password)).Returns(passwordHash);
