@@ -4,7 +4,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using CorrelationId;
+using GHLearning.CleanArchitecture.SharedKernel;
 using GHLearning.CleanArchitecture.WebApi.Filters;
+using GHLearning.CleanArchitecture.WebApi.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpLogging;
@@ -102,7 +104,14 @@ builder.Services.AddHttpLogging(logging =>
 	logging.LoggingFields = HttpLoggingFields.All;
 	logging.RequestHeaders.Add(CorrelationIdOptions.DefaultHeader);
 	logging.ResponseHeaders.Add(CorrelationIdOptions.DefaultHeader);
-	logging.MediaTypeOptions.AddText("application/javascript");
+	logging.RequestHeaders.Add(TraceHeaders.TraceParent);
+	logging.ResponseHeaders.Add(TraceHeaders.TraceParent);
+	logging.RequestHeaders.Add(TraceHeaders.TraceId);
+	logging.ResponseHeaders.Add(TraceHeaders.TraceId);
+	logging.RequestHeaders.Add(TraceHeaders.ParentId);
+	logging.ResponseHeaders.Add(TraceHeaders.ParentId);
+	logging.RequestHeaders.Add(TraceHeaders.TraceFlag);
+	logging.ResponseHeaders.Add(TraceHeaders.TraceFlag);
 	logging.RequestBodyLogLimit = 4096;
 	logging.ResponseBodyLogLimit = 4096;
 	logging.CombineLogs = true;
@@ -111,7 +120,7 @@ builder.Services.AddHttpLogging(logging =>
 //AddOpenTelemetry
 builder.Services.AddOpenTelemetry()
 	.ConfigureResource(resource => resource
-	.AddService(builder.Configuration["ServiceName"]!))
+	.AddService(builder.Configuration["ServiceName"]!.ToLower()))
 	.UseOtlpExporter(OtlpExportProtocol.Grpc, new Uri(builder.Configuration["OtlpEndpointUrl"]!.ToLower()))
 	.WithMetrics(metrics => metrics
 		.AddMeter("GHLearning.")
@@ -145,6 +154,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseHttpLogging();
+
+app.UseMiddleware<TraceMiddleware>();
+
+app.UseMiddleware<CorrelationMiddleware>();
 
 app.UseAuthentication();
 

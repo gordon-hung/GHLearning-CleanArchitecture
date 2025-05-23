@@ -19,7 +19,7 @@ internal sealed class UserRegisterCommandRequestHamdler(
 
 		var user = new UserCreated
 		(
-			Id: await sequentialGuidGenerator.NewIdAsync(cancellationToken).ConfigureAwait(false),
+			Id: sequentialGuidGenerator.NewId(),
 			Email: command.Email,
 			FirstName: command.FirstName,
 			LastName: command.LastName,

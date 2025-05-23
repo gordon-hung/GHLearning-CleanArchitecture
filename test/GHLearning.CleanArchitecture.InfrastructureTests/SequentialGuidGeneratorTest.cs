@@ -8,8 +8,8 @@ public class SequentialGuidGeneratorTest
 	{
 		var sut = new SequentialGuidGenerator();
 
-		var actual = sut.NewIdAsync();
+		var actual = sut.NewId();
 
-		Assert.NotNull(actual);
+		Assert.NotEqual(Guid.Empty, actual);
 	}
 }

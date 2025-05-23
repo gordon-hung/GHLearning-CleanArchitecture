@@ -1,26 +1,15 @@
 ﻿using CorrelationId;
 
 using CorrelationId.Abstractions;
+using GHLearning.CleanArchitecture.SharedKernel;
 using Microsoft.AspNetCore.Http;
 
 namespace GHLearning.CleanArchitecture.Infrastructure.Correlations;
 
-internal sealed class CustomCorrelationIdProvider : ICorrelationIdProvider
+internal sealed class CustomCorrelationIdProvider(ISequentialGuidGenerator sequentialGuidGenerator) : ICorrelationIdProvider
 {
 	public string GenerateCorrelationId(HttpContext context)
-	{
-		var correlationId = context.Request.Headers[CorrelationIdOptions.DefaultHeader].FirstOrDefault()
-			?? context.Items[CorrelationIdOptions.DefaultHeader]?.ToString();
-
-		if (string.IsNullOrEmpty(correlationId))
-		{
-			correlationId = Guid.NewGuid().ToString();
-			context.Request.Headers[CorrelationIdOptions.DefaultHeader] = correlationId;
-		}
-
-		context.Items[CorrelationIdOptions.DefaultHeader] = correlationId;
-		context.Response.Headers[CorrelationIdOptions.DefaultHeader] = correlationId;
-
-		return correlationId;
-	}
+		=> context.Request.Headers[CorrelationIdOptions.DefaultHeader].FirstOrDefault()
+		?? context.Items[CorrelationIdOptions.DefaultHeader]?.ToString()
+		?? sequentialGuidGenerator.NewId().ToString();
 }

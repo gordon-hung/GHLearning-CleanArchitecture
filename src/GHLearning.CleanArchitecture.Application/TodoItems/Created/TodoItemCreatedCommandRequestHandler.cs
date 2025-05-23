@@ -12,7 +12,7 @@ internal class TodoItemCreatedCommandRequestHandler(
 {
 	public async Task<Result<Guid>> Handle(TodoItemCreatedCommandRequest request, CancellationToken cancellationToken)
 	{
-		Guid id = await sequentialGuidGenerator.NewIdAsync(cancellationToken).ConfigureAwait(false);
+		Guid id = sequentialGuidGenerator.NewId();
 
 		var created = new TodoItemCreated(
 			id,

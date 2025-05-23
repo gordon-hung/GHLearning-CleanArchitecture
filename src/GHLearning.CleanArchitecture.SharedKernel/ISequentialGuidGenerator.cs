@@ -2,5 +2,5 @@
 
 public interface ISequentialGuidGenerator
 {
-	Task<Guid> NewIdAsync(CancellationToken cancellationToken = default);
+	Guid NewId();
 }
