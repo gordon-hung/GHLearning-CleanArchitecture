@@ -30,7 +30,6 @@ builder.Services
 	{
 		options.Filters.Add(new ProducesAttribute(MediaTypeNames.Application.Json));
 		options.Filters.Add(new ConsumesAttribute(MediaTypeNames.Application.Json));
-		options.Filters.Add<HandleCorrelationActionFilter>();
 		options.Filters.Add<FormatResponseExceptionFilterAttribute>();
 		options.Filters.Add<FormatResponseResultFilterAttribute>();
 	})
@@ -120,8 +119,11 @@ builder.Services.AddHttpLogging(logging =>
 //AddOpenTelemetry
 builder.Services.AddOpenTelemetry()
 	.ConfigureResource(resource => resource
-	.AddService(builder.Configuration["ServiceName"]!.ToLower()))
-	.UseOtlpExporter(OtlpExportProtocol.Grpc, new Uri(builder.Configuration["OtlpEndpointUrl"]!.ToLower()))
+	.AddService(
+		serviceName: builder.Configuration["ServiceName"]!.ToLower(),
+		serviceNamespace: typeof(Program).Assembly.GetName().Name,
+		serviceInstanceId: Environment.MachineName))
+	.UseOtlpExporter(OtlpExportProtocol.Grpc, new Uri(builder.Configuration["OtlpEndpointUrl"]!))
 	.WithMetrics(metrics => metrics
 		.AddMeter("GHLearning.")
 		.AddAspNetCoreInstrumentation()
@@ -142,8 +144,6 @@ builder.Services.AddOpenTelemetry()
 
 var app = builder.Build();
 
-app.UseCorrelationId();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -153,11 +153,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseHttpLogging();
+app.UseCorrelationId();
 
 app.UseMiddleware<TraceMiddleware>();
 
 app.UseMiddleware<CorrelationMiddleware>();
+
+app.UseHttpLogging();
 
 app.UseAuthentication();
 
