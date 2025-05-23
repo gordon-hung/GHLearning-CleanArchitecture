@@ -122,7 +122,7 @@ builder.Services.AddOpenTelemetry()
 	.AddService(
 		serviceName: builder.Configuration["ServiceName"]!.ToLower(),
 		serviceNamespace: typeof(Program).Assembly.GetName().Name,
-		serviceInstanceId: Environment.MachineName))
+		serviceVersion: typeof(Program).Assembly.GetName().Version?.ToString() ?? "unknown"))
 	.UseOtlpExporter(OtlpExportProtocol.Grpc, new Uri(builder.Configuration["OtlpEndpointUrl"]!))
 	.WithMetrics(metrics => metrics
 		.AddMeter("GHLearning.")
